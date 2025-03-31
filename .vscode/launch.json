@@ -1,0 +1,23 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "0nliner run app",
+            "type": "debugpy",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "program": "${workspaceFolder}/entrypoints/run.py",
+            "console": "integratedTerminal",
+            "justMyCode": false,
+            "envFile": "${workspaceFolder}/envs/.demo_env"
+        },        
+        {
+            "name": "Python: pytest",
+            "type": "python",
+            "request": "launch",
+            "module": "pytest",
+            "envFile": "${workspaceFolder}/.demo_env",
+            "justMyCode": true
+        }
+    ]
+}
