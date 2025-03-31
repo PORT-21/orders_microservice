@@ -52,4 +52,6 @@ from archtool.global_types import AppModule
 
 APPS: AppModules = [
     AppModule('app.core_integrations'),
+    AppModule('app.orders'),
+    AppModule('app.dispersion_control'),
 ]

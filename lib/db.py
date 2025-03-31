@@ -1,4 +1,5 @@
 from datetime import datetime, timezone, tzinfo
+from enum import Enum
 import typing as t
 
 from furl import furl
@@ -57,3 +58,25 @@ async def drop_db(Base: DeclarativeMeta, db_uri: str) ->  AsyncEngine:
     async with engine.begin() as conn:
         await conn.run_sync(Base.metadata.drop_all)
     return engine
+
+
+from sqlalchemy.orm import Mapped, mapped_column
+from sqlalchemy.sql.sqltypes import DateTime
+
+
+class Dated(Base):
+    __abstract__ = True
+    created_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+    updated_at: Mapped[datetime] = mapped_column(DateTime, default=datetime.utcnow, index=True)
+
+
+def get_enum_values(e: Enum) -> list:
+    return [val.value for key, val in e.__members__.items()]
+
+import sqlalchemy as sa
+from archtool.utils import string_to_snake_case
+
+
+def create_enum_column(enum: Enum) -> sa.Enum:
+    enum_col_T = sa.Enum(*get_enum_values(enum), name=string_to_snake_case(enum.__name__), metadata=Base.metadata, create_constraint=True, validate_strings=True)
+    return enum_col_T

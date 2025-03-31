@@ -1,6 +1,8 @@
 from archtool.dependency_injector import DependencyInjector
 from minio import Minio
 from centrifuge import Client as _CentrifugoClient
+from aiogram import Bot, Dispatcher
+from aiogram.enums import ParseMode
 
 from lib.utils import get_settings_values
 
@@ -55,3 +57,7 @@ def reg_deps(injector: DependencyInjector):
             use_protobuf=False,
         )
         injector._reg_dependency(CentrifugoClient, centrifugo_client)
+
+
+    bot = Bot(token=settings.TELEGRAM_BOT_TOKEN, parse_mode=ParseMode.HTML)
+    dp = Dispatcher()
