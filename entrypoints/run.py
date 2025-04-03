@@ -19,7 +19,7 @@ from lib.middlewares import my_exception_handler
 from app.config import APPLICATION_HOST, APPLICATION_PORT, ENABLE_CENTRIFUGO, PROJECT_NAME, ENABLE_OPENOBSERVE
 from app.archtool_conf.bundle_project import bundle
 from app.core_integrations.dep_keys import CentrifugoClient
-
+from app.orders.interfaces import TGBotServiceABC
 
 def register_router(app: FastAPI, module: ModuleType) -> None:
     app.include_router(module.router)
@@ -46,6 +46,9 @@ def create_app(name: str = PROJECT_NAME) -> tuple[FastAPI, DependencyInjector]:
     if ENABLE_CENTRIFUGO:
         centrifugo_client = injector.get_dependency(CentrifugoClient)
         subtasks.append(centrifugo_client.connect())
+
+    bot_service = injector.get_dependency(TGBotServiceABC)
+    subtasks.append(bot_service.start_bot())
 
     @application.on_event("startup")
     async def startup_event():

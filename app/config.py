@@ -69,3 +69,6 @@ CREATE_TEST_DATA = get_bool_from_env("CREATE_TEST_DATA")
 API_USER_TOKEN = os.environ.get("API_USER_TOKEN", None) 
 RUN_SSE_LISTNER = get_bool_from_env("RUN_SSE_LISTNER")
 # endregion
+
+
+TELEGRAM_BOT_TOKEN = os.environ.get("TELEGRAM_BOT_TOKEN")

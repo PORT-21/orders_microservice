@@ -4,6 +4,7 @@ from centrifuge import Client as _CentrifugoClient
 from aiogram import Bot, Dispatcher
 from aiogram.enums import ParseMode
 
+from app import config
 from lib.utils import get_settings_values
 
 from .centrifugo_deps import ClientEventLoggerHandler, get_client_token
@@ -58,6 +59,9 @@ def reg_deps(injector: DependencyInjector):
         )
         injector._reg_dependency(CentrifugoClient, centrifugo_client)
 
-
-    bot = Bot(token=settings.TELEGRAM_BOT_TOKEN, parse_mode=ParseMode.HTML)
+    # region bot
+    bot = Bot(token=config.TELEGRAM_BOT_TOKEN, )
     dp = Dispatcher()
+    injector._reg_dependency(Bot, bot)
+    injector._reg_dependency(Dispatcher, dp)
+    # endregion

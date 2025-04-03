@@ -6,13 +6,17 @@ from furl import furl
 from sqlalchemy import create_engine
 from sqlalchemy.engine import Row
 from sqlalchemy.ext.asyncio import create_async_engine, AsyncEngine
-from sqlalchemy.ext.declarative import declarative_base, DeclarativeMeta
+from sqlalchemy.ext.declarative import DeclarativeMeta
+from sqlalchemy import JSON
+from sqlalchemy.orm import DeclarativeBase
 
 from lib.dtos import Paginataion
 
 
-Base = declarative_base()
-
+class Base(DeclarativeBase):
+    type_annotation_map = {
+        dict[str, t.Any]: JSON
+    }
 
 def get_no_db_engine(dsn):
     f = furl(dsn)
